@@ -84,3 +84,24 @@ class SandwichMachine:
 
 ### Make an instance of SandwichMachine class and write the rest of the codes ###
 sandwich_machine = SandwichMachine(resources)
+
+while True:
+    print("What would you like? (small/ medium/ large/ off/ report)")
+    choice = input().lower()
+
+    if choice in ["small", "medium", "large"]:
+        order_ingredients = recipes[choice]["ingredients"]
+        cost = recipes[choice]["cost"]
+        if sandwich_machine.check_resources(order_ingredients):
+            coins = sandwich_machine.process_coins()
+            if sandwich_machine.transaction_result(coins, cost):
+                sandwich_machine.make_sandwich(choice, order_ingredients)
+                print(f"{choice} sandwich is ready. Bon appetit!")
+        else:
+            print("Sorry, there is not enough bread.")
+    elif choice == "off":
+        print("Turning off machine")
+        break
+    elif choice == "report":
+        for ingredient, quantity in sandwich_machine.machine_resources.items():
+            print(f"{ingredient}: {quantity}")
